@@ -42,6 +42,6 @@ Clear assumptions score higher than silent ones. This document is part of the su
 | Gemini on every record | Cost, non-determinism, audit risk | Batch suggestions for UNMAPPED only |
 | Age/sex-specific ranges | Not in sample metadata (redacted) | Range table keyed by test + sex + age band |
 | UI auth, audit login, PHI masking toggle | Prototype usability | IAP + DLP + column ACL |
-| Draw.io → Google Slides file | Cannot attach a live Slides deck in git | [`slides-outline.md`](slides-outline.md) is the speaker script |
+| Draw.io → Google Slides file | Cannot attach a live Slides deck in git | Optional local speaker notes; not in the submitted repo |
 
 Simplifications made to save time are intentional. A well-reasoned prototype with this document is the submission the brief asked for.
