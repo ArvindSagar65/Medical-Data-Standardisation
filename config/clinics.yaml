@@ -1,0 +1,76 @@
+# Clinic / source-system field mappings.
+# Adding a new source system is a config change only (NFR-2.1).
+# Paths are dotted JSONPaths relative to the document root unless noted.
+
+default:
+  envelope:
+    trace_id: "traceId"
+    correlation_id: "data.correlationId"
+    document_id: "data.documentId"
+    status_code: "statusCode"
+    response_details: "data.responseDetails"
+    meta_details: "data.metaDetails"
+  meta_keys:
+    claim_no: "claim_no"
+    nt_code: "nt_code"
+    source_system: "source_system"
+    consumer_client_id: "ConsumerClientId"
+    destination_identifier: "DestinationIdentifier"
+    case_id: "case_id"
+  lab:
+    classifier: "lab_report"
+    basic_info: "data.basic_info"
+    report_details: "data.report_details"
+    fields:
+      uhid: "uhid"
+      age: "age"
+      bill_date: "bill_date"
+      gender: "gender"
+      lab_or_hospital_name: "lab_or_hospital_name"
+      patient_name: "patient_name"
+      reports_date: "reports_date"
+    test_fields:
+      page_no: "page_no"
+      range: "range"
+      result: "result"
+      test_analytics: "test_analytics"
+      test_name: "test_name"
+      unit: "unit"
+  discharge:
+    classifier: "discharge_summary"
+    fields:
+      admission_date: "admissionDate"
+      discharge_date: "dischargeDate"
+      age: "age"
+      gender: "gender"
+      patient_name: "patientName"
+      hospital_name: "hospitalName"
+      hospital_address: "hospitalAddress"
+      doctor_name: "doctorName"
+      diagnosis: "diagnosis"
+      brief_history: "briefHistory"
+      general_examinations: "generalExaminations"
+      recommendations: "recommendations"
+      ward: "ward"
+      post_discharge_advice: "postDischargeAdvice"
+      course_during_hospitalisation: "courseDuringHospitalisation"
+      medicine_injections_investigation: "medicineInjectionsInvestigation"
+      discharge_medications: "dischargeMedications"
+    medication_fields:
+      dose: "dose"
+      frequency: "frequency"
+      medicine: "medicine"
+      type: "type"
+  date_formats:
+    - "%d-%m-%Y"
+    - "%d/%m/%Y"
+    - "%d-%b-%Y"
+    - "%d/%b/%Y"
+    - "%Y-%m-%d"
+    - "%d-%B-%Y"
+
+FASTTRACK:
+  extends: default
+
+ARTEMIS:
+  extends: default

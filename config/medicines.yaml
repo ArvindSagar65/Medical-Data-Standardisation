@@ -1,0 +1,43 @@
+# Brand / local trade names → generic INN.
+# Matching is case-insensitive after stripping Tab./Inj./Cap./Syp. prefixes.
+
+aliases:
+  pan: Pantoprazole
+  pan d: Pantoprazole + Domperidone
+  pan 40: Pantoprazole
+  pantop: Pantoprazole
+  pantocid: Pantoprazole
+  pcm: Paracetamol
+  dolo: Paracetamol
+  dolo 650: Paracetamol
+  inj pcm: Paracetamol
+  ceftum: Cefuroxime
+  ceftas: Cefixime
+  ceftas 400: Cefixime
+  azithral: Azithromycin
+  synto: Oxytocin
+  miso: Misoprostol
+  emeset: Ondansetron
+  dynapar: Diclofenac
+  diclomol: Diclofenac + Paracetamol
+  fortwin: Pentazocine
+  phenargan: Promethazine
+  vizylac: Lactobacillus
+  naturolax: Ispaghula
+  duphalac: Lactulose
+  medicip: Ciprofloxacin
+  monocef: Ceftriaxone
+  supacef: Cefuroxime
+  neuro bion forte: Vitamin B complex
+  ultracet: Tramadol + Paracetamol
+  zincovit: Multivitamin
+  drotin: Drotaverine
+  econorm: Saccharomyces boulardii
+  eco norm sachet: Saccharomyces boulardii
+  bandy plus: Albendazole + Ivermectin
+  syp bandy plus: Albendazole + Ivermectin
+  lactoloo2: Lactulose
+  syp lactoloo2: Lactulose
+  aciloc: Ranitidine
+  bucsopan: Hyoscine butylbromide
+  iv fluids: Intravenous fluids

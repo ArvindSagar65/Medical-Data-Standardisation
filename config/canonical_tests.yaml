@@ -1,0 +1,154 @@
+# Curated tests that participate in the FR-2.2 five-column contract.
+# Physical storage is long-format; v_claim_tests_wide pivots these names.
+
+fuzzy_threshold: 82
+
+tests:
+  Hemoglobin:
+    value_type: numeric
+    canonical_unit: g/dL
+    loinc_hint: "718-7"
+  WBC:
+    value_type: numeric
+    canonical_unit: cells/cu.mm
+  Platelet Count:
+    value_type: numeric
+    canonical_unit: cells/cu.mm
+  RBC:
+    value_type: numeric
+    canonical_unit: million/cu.mm
+  Hematocrit:
+    value_type: numeric
+    canonical_unit: "%"
+  MCV:
+    value_type: numeric
+    canonical_unit: fL
+  MCH:
+    value_type: numeric
+    canonical_unit: pg
+  MCHC:
+    value_type: numeric
+    canonical_unit: g/dL
+  RDW-CV:
+    value_type: numeric
+    canonical_unit: "%"
+  RDW-SD:
+    value_type: numeric
+    canonical_unit: fL
+  Neutrophils:
+    value_type: numeric
+    canonical_unit: "%"
+  Lymphocytes:
+    value_type: numeric
+    canonical_unit: "%"
+  Eosinophils:
+    value_type: numeric
+    canonical_unit: "%"
+  Monocytes:
+    value_type: numeric
+    canonical_unit: "%"
+  Basophils:
+    value_type: numeric
+    canonical_unit: "%"
+  MPV:
+    value_type: numeric
+    canonical_unit: fL
+  ALT:
+    value_type: numeric
+    canonical_unit: U/L
+  AST:
+    value_type: numeric
+    canonical_unit: U/L
+  ALP:
+    value_type: numeric
+    canonical_unit: U/L
+  GGT:
+    value_type: numeric
+    canonical_unit: U/L
+  Bilirubin Total:
+    value_type: numeric
+    canonical_unit: mg/dL
+  Bilirubin Direct:
+    value_type: numeric
+    canonical_unit: mg/dL
+  Bilirubin Indirect:
+    value_type: numeric
+    canonical_unit: mg/dL
+  Albumin:
+    value_type: numeric
+    canonical_unit: g/dL
+  Globulin:
+    value_type: numeric
+    canonical_unit: g/dL
+  Total Protein:
+    value_type: numeric
+    canonical_unit: g/dL
+  AG Ratio:
+    value_type: numeric
+    canonical_unit: ratio
+  AST ALT Ratio:
+    value_type: numeric
+    canonical_unit: ratio
+  Sodium:
+    value_type: numeric
+    canonical_unit: mmol/L
+  Potassium:
+    value_type: numeric
+    canonical_unit: mmol/L
+  Chloride:
+    value_type: numeric
+    canonical_unit: mmol/L
+  Urea:
+    value_type: numeric
+    canonical_unit: mg/dL
+  BUN:
+    value_type: numeric
+    canonical_unit: mg/dL
+  Creatinine:
+    value_type: numeric
+    canonical_unit: mg/dL
+  Uric Acid:
+    value_type: numeric
+    canonical_unit: mg/dL
+  Calcium:
+    value_type: numeric
+    canonical_unit: mg/dL
+  Phosphorus:
+    value_type: numeric
+    canonical_unit: mg/dL
+  Amylase:
+    value_type: numeric
+    canonical_unit: U/L
+  Lipase:
+    value_type: numeric
+    canonical_unit: U/L
+  CRP:
+    value_type: numeric
+    canonical_unit: mg/L
+  RBS:
+    value_type: numeric
+    canonical_unit: mg/dL
+  SpO2:
+    value_type: numeric
+    canonical_unit: "%"
+  Temperature:
+    value_type: numeric
+    canonical_unit: "°F"
+  Pulse:
+    value_type: numeric
+    canonical_unit: /min
+  eGFR:
+    value_type: numeric
+    canonical_unit: mL/min/1.73m2
+  Widal:
+    value_type: qualitative
+    canonical_unit: ""
+  Dengue NS1:
+    value_type: qualitative
+    canonical_unit: ""
+  Typhidot:
+    value_type: qualitative
+    canonical_unit: ""
+  Malaria:
+    value_type: qualitative
+    canonical_unit: ""

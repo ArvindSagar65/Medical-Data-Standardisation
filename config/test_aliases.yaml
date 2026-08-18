@@ -1,0 +1,136 @@
+# Explicit original → canonical mappings (checked before fuzzy match).
+# Keys are matched after normalisation (lowercase, strip punctuation).
+
+aliases:
+  aemoglobin: Hemoglobin
+  haemoglobin: Hemoglobin
+  hemoglobin: Hemoglobin
+  haemoglobin whole blood photometric method: Hemoglobin
+  hemoglobin whole blood photometric method: Hemoglobin
+  cbc complete blood count specimen edta: Hemoglobin
+  complete blood count cbc whole blood edta: Hemoglobin
+  tal wbc count: WBC
+  total wbc count: WBC
+  total leucocyte count tlc: WBC
+  total leukocyte count tlc: WBC
+  total leucocyte count tlc whole blood impedence method: WBC
+  corrected tlc: WBC
+  wbc: WBC
+  tlc: WBC
+  atelet count: Platelet Count
+  platelet count: Platelet Count
+  platelets: Platelet Count
+  rbc count: RBC
+  red blood cell count: RBC
+  red blood cell count whole blood impedenco method: RBC
+  ematocrit hct: Hematocrit
+  hematocrit hct: Hematocrit
+  hematocrit: Hematocrit
+  hct: Hematocrit
+  pcv: Hematocrit
+  packed cell volume pcv: Hematocrit
+  packed cell volume pcv whole blood impedenco method: Hematocrit
+  lean corp volume mcv: MCV
+  mcv: MCV
+  mean cell volume mcv: MCV
+  mean cell volume mcv whole blood calculalod: MCV
+  mch: MCH
+  mch whole blood calculated: MCH
+  lean corp hb conc mchc: MCHC
+  mchc: MCHC
+  mchc whole blood calculated: MCHC
+  dw cv: RDW-CV
+  rdw cv: RDW-CV
+  r d w: RDW-CV
+  rdw cv whole blood impedence method: RDW-CV
+  dw sd: RDW-SD
+  rdw sd: RDW-SD
+  eutrophils: Neutrophils
+  neutrophils: Neutrophils
+  neutrophil: Neutrophils
+  mphocytes: Lymphocytes
+  lymphocytes: Lymphocytes
+  lymphocyte: Lymphocytes
+  sinophils: Eosinophils
+  eosinophils: Eosinophils
+  onocytes: Monocytes
+  monocytes: Monocytes
+  sophils: Basophils
+  basophils: Basophils
+  mpv: MPV
+  mpv mean platelet volume: MPV
+  alanine aminotransferase: ALT
+  alanine aminotransferase alt sgpt: ALT
+  alanine transaminase alt: ALT
+  alt: ALT
+  sgpt: ALT
+  aspartate aminotransferase: AST
+  aspartate aminotransferase ast sgot: AST
+  aspartate transaminase sgot ast: AST
+  aspartate transaminase sgot hast: AST
+  ast: AST
+  sgot: AST
+  alkaline phosphatase: ALP
+  alkaline phosphatase alp: ALP
+  alp: ALP
+  ggt gamma glutamyl transpeptidase: GGT
+  ggt: GGT
+  bilirubin conjugated direct: Bilirubin Direct
+  bilirubin conjugateddirect: Bilirubin Direct
+  bilirubin direct: Bilirubin Direct
+  bilirubinindirect: Bilirubin Indirect
+  bilirubin indirect: Bilirubin Indirect
+  serum bilirubin total direct indirect: Bilirubin Total
+  albumin: Albumin
+  globulin: Globulin
+  globulin calculated: Globulin
+  protein total: Total Protein
+  total protein: Total Protein
+  a g ratio: AG Ratio
+  albumin globulin ratio: AG Ratio
+  albumin globulin ratio calculated: AG Ratio
+  ast sgot alt sgpt ratio de ritis: AST ALT Ratio
+  ast sgot alt sgpt ratio deritis: AST ALT Ratio
+  sodium: Sodium
+  sodium na: Sodium
+  potassium: Potassium
+  potassium k: Potassium
+  chloride: Chloride
+  chloride ci: Chloride
+  urea: Urea
+  blood urea: Urea
+  blood urea nitrogen: BUN
+  bun: BUN
+  serum creatinine: Creatinine
+  creatinine: Creatinine
+  renal profile kidney function test rft kft serum: Creatinine
+  uric acid: Uric Acid
+  calcium: Calcium
+  serum calcium: Calcium
+  phosphorus inorganic: Phosphorus
+  phosphorus serum: Phosphorus
+  amylase: Amylase
+  lipase serum: Lipase
+  lipase: Lipase
+  crp quantitative: CRP
+  crp: CRP
+  rbs: RBS
+  spo2: SpO2
+  temp: Temperature
+  pulse: Pulse
+  egfr estimated glomerular: eGFR
+  egfr: eGFR
+  widal test: Widal
+  widal test slide method: Widal
+  dengue ns 1: Dengue NS1
+  dengue ns1: Dengue NS1
+  typhi dot igg igm: Typhidot
+  typhidot igg and igm serum: Typhidot
+  peripheral smear for malarial parasite mp whole blood edta: Malaria
+  malaria vivax antigen whole blood edta: Malaria
+  malaria falciparum antigen whole blood edta: Malaria
+  et: MPV
+  lcr: Hematocrit
+  lac cmm: Platelet Count
+  latelet indices: MPV
+  bc indices: Hematocrit

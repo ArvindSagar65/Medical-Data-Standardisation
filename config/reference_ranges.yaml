@@ -1,0 +1,134 @@
+# Medically accepted ranges plus physiologically implausible outlier bounds.
+# Outlier is evaluated before above/below range (FR-3.2 vs FR-3.1).
+
+tests:
+  Hemoglobin:
+    low: 13.0
+    high: 17.0
+    outlier_low: 3.0
+    outlier_high: 25.0
+  WBC:
+    low: 4000
+    high: 11000
+    outlier_low: 200
+    outlier_high: 100000
+  Platelet Count:
+    low: 150000
+    high: 450000
+    outlier_low: 5000
+    outlier_high: 2000000
+  RBC:
+    low: 4.0
+    high: 6.0
+    outlier_low: 1.0
+    outlier_high: 10.0
+  Hematocrit:
+    low: 36
+    high: 50
+    outlier_low: 10
+    outlier_high: 70
+  MCV:
+    low: 80
+    high: 100
+    outlier_low: 40
+    outlier_high: 140
+  MCH:
+    low: 27
+    high: 33
+    outlier_low: 10
+    outlier_high: 50
+  MCHC:
+    low: 31
+    high: 37
+    outlier_low: 15
+    outlier_high: 50
+  Neutrophils:
+    low: 40
+    high: 75
+    outlier_low: 1
+    outlier_high: 99
+  Lymphocytes:
+    low: 20
+    high: 45
+    outlier_low: 1
+    outlier_high: 90
+  ALT:
+    low: 7
+    high: 56
+    outlier_low: 0
+    outlier_high: 2000
+  AST:
+    low: 8
+    high: 48
+    outlier_low: 0
+    outlier_high: 2000
+  ALP:
+    low: 40
+    high: 129
+    outlier_low: 5
+    outlier_high: 2000
+  Sodium:
+    low: 135
+    high: 145
+    outlier_low: 110
+    outlier_high: 170
+  Potassium:
+    low: 3.5
+    high: 5.1
+    outlier_low: 1.5
+    outlier_high: 8.0
+  Chloride:
+    low: 98
+    high: 107
+    outlier_low: 70
+    outlier_high: 130
+  Urea:
+    low: 15
+    high: 45
+    outlier_low: 2
+    outlier_high: 300
+  BUN:
+    low: 7
+    high: 20
+    outlier_low: 1
+    outlier_high: 150
+  Creatinine:
+    low: 0.6
+    high: 1.3
+    outlier_low: 0.1
+    outlier_high: 15
+  Albumin:
+    low: 3.5
+    high: 5.0
+    outlier_low: 1.0
+    outlier_high: 7.0
+  Calcium:
+    low: 8.4
+    high: 10.2
+    outlier_low: 4.0
+    outlier_high: 16.0
+  RBS:
+    low: 70
+    high: 140
+    outlier_low: 20
+    outlier_high: 800
+  CRP:
+    low: 0
+    high: 6
+    outlier_low: 0
+    outlier_high: 400
+  Temperature:
+    low: 97.0
+    high: 99.5
+    outlier_low: 90.0
+    outlier_high: 110.0
+  Pulse:
+    low: 60
+    high: 100
+    outlier_low: 20
+    outlier_high: 250
+  SpO2:
+    low: 95
+    high: 100
+    outlier_low: 50
+    outlier_high: 100

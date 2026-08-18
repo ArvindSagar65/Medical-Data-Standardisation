@@ -1,0 +1,17 @@
+# Configurable duplicate detection (FR-1.2).
+#
+# document_id: same extracted document is the same claim packet.
+# section_hash: identical classifier payload inside one file (file 5 dual discharge).
+# file_name: exact filename replay (file1_duplicate.json).
+
+strategies:
+  - document_id
+  - section_hash
+  - file_content_hash
+
+section_hash_fields:
+  - classifier
+  - diagnosis
+  - admission_date
+  - discharge_date
+  - claim_no

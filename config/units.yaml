@@ -1,0 +1,71 @@
+# Unit aliases and conversion factors into a canonical unit.
+# converted_value = original_value * factor  (when from_unit maps to to_unit)
+
+canonical_units:
+  - g/dL
+  - cells/cu.mm
+  - million/cu.mm
+  - "%"
+  - fL
+  - pg
+  - U/L
+  - mg/dL
+  - mg/L
+  - mmol/L
+  - ratio
+  - mL/min/1.73m2
+  - /min
+  - "°F"
+
+aliases:
+  g/dl: g/dL
+  gm/dl: g/dL
+  gm/di: g/dL
+  g/dL: g/dL
+  cell/cu.mm: cells/cu.mm
+  cells/cu.mm: cells/cu.mm
+  cells/cumm: cells/cu.mm
+  cells/cu.cm: cells/cu.mm
+  mil/cu.mm: million/cu.mm
+  mil/cu.cm: million/cu.mm
+  million/cu.mm: million/cu.mm
+  million/cumm: million/cu.mm
+  lakhs/cumm: lakhs/cu.mm
+  lac/cmm: lakhs/cu.mm
+  "%": "%"
+  fl: fL
+  fL: fL
+  fi: fL
+  il: fL
+  pg: pg
+  u/l: U/L
+  ua: U/L
+  uil: U/L
+  mg/dl: mg/dL
+  mg/dL: mg/dL
+  mg/l: mg/L
+  mmol/l: mmol/L
+  mmol/L: mmol/L
+  od units: ""
+  agglutination: ""
+  ict: ""
+  min: /min
+  /min: /min
+  mmhg: mmHg
+  degree f: "°F"
+  ml/min/1.73m2: mL/min/1.73m2
+
+conversions:
+  # 1 lakh cells/cu.mm = 100,000 cells/cu.mm (file 5 platelet 1.90 lakhs/cumm)
+  - from: lakhs/cu.mm
+    to: cells/cu.mm
+    factor: 100000.0
+  - from: million/cu.mm
+    to: cells/cu.mm
+    factor: 1000000.0
+  - from: mil/cu.cm
+    to: million/cu.mm
+    factor: 1.0
+  - from: g/L
+    to: g/dL
+    factor: 0.1
