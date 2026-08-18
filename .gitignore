@@ -1,3 +1,16 @@
+# Pipeline local artefacts
+data/*.db
+data/dlq/*
+!data/.gitkeep
+!data/dlq/.gitkeep
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+
 # Logs
 logs
 *.log
@@ -45,7 +58,7 @@ jspm_packages/
 web_modules/
 
 # TypeScript cache
-*.tsbuildinfo
+.tsbuildinfo
 
 # Optional npm cache directory
 .npm
@@ -54,7 +67,7 @@ web_modules/
 .eslintcache
 
 # Optional stylelint cache
-.stylelintcache
+.stylelintrcache
 
 # Optional REPL history
 .node_repl_history
@@ -85,9 +98,6 @@ dist
 
 # Gatsby files
 .cache/
-# Comment in the public line in if your project uses Gatsby and not Next.js
-# https://nextjs.org/blog/next-9-1#public-directory-support
-# public
 
 # vuepress build output
 .vuepress/dist
