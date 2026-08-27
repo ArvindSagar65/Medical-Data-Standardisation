@@ -66,7 +66,7 @@ OUTPUT_database table/       # ideal schema CSV from the assignment
 | Prototype | Production GCP | Why |
 |---|---|---|
 | `sample-data/` folder | Cloud Storage (`gs://veritas-raw/{source_system}/{date}/…`) | Object landing zone |
-| `python -m src.pipeline` | Cloud Run Jobs (Eventarc on `object.finalize`) or Dataflow | Same Python, horizontal workers |
+| `python -m src.pipeline` | Cloud Run **service** (ARM): Pub/Sub pull, ~80 JSON/instance, YAML in RAM; flush 1000 files/60s (5000 under backlog) then BigQuery `MERGE` | Same Python; avoid a Job per object |
 | `config/*.yaml` | GCS config prefix or Firestore | New clinic = metadata, not a deploy |
 | SQLite `data/veritas.db` | BigQuery (canonical long tables + authorised view) | Warehouse scale + SQL |
 | Streamlit | Looker Studio + optional Cloud Run inspector | Ops / analyst access |

@@ -16,10 +16,10 @@
         <mxCell id="c2" value="Cloud Storage&#10;gs://veritas-raw/{source_system}/{date}/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
           <mxGeometry x="280" y="80" width="220" height="80" as="geometry"/>
         </mxCell>
-        <mxCell id="c3" value="Eventarc + Pub/Sub&#10;object finalize + Scheduler sweep" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+        <mxCell id="c3" value="Eventarc + Pub/Sub&#10;pull batch (not 1 instance/file)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
           <mxGeometry x="560" y="80" width="200" height="80" as="geometry"/>
         </mxCell>
-        <mxCell id="c4" value="Cloud Run Job&#10;parse · dedup · standardise · validate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+        <mxCell id="c4" value="Cloud Run service (ARM)&#10;YAML in RAM · batch 1000/60s · MERGE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="820" y="80" width="220" height="80" as="geometry"/>
         </mxCell>
         <mxCell id="c5" value="BigQuery&#10;claims · lab_results · medications&#10;wide authorised view" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">

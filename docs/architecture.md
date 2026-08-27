@@ -9,33 +9,36 @@ Clinics send JSON “medical reports” into Veritas’s landing zone. The files
 
 ## Pattern choice
 
-**Event-driven micro-batch** (not streaming, not a giant nightly warehouse dump). Each object is an independent document. Schema-on-read at the edge; schema-on-write into a canonical model. Streaming Pub/Sub+Dataflow would add cost and operational load without helping the 15-minute p95 SLA.
+**Event-driven micro-batch** (not streaming, not a giant nightly warehouse dump). Files land independently; workers **pull a batch** from Pub/Sub, standardise in process, then one BigQuery `MERGE`. Schema-on-read at the edge; schema-on-write into a canonical model.
+
+Cloud Run **Jobs** are the wrong grain here: a Job per object would create ~200k instance starts/day. A Cloud Run **service** on ARM with concurrency ≈ 80 keeps one warm instance busy with many JSON files. YAML mappings are loaded once into container RAM (same idea as `load_all()` in the prototype).
 
 ```
 Clinics / existing extractors
         │  PUT JSON
         ▼
 Ingestion     Cloud Storage  (prototype: sample-data/)
-        │  object.finalize → Eventarc / Pub/Sub
+        │  object.finalize → Eventarc → Pub/Sub
         ▼
-Processing    Cloud Run Job  (prototype: src.pipeline)
-              parse → dedup → standardise → validate → load
+Processing    Cloud Run service (ARM)  (prototype: src.pipeline)
+              pull batch → parse → dedup → standardise → validate
+              YAML aliases/units/ranges cached in RAM
         │
-        ├─ success → BigQuery  (prototype: SQLite)
+        ├─ flush every 1000 msgs or 60s → BigQuery MERGE
         └─ failure → GCS DLQ + error table
         │
 Observability Cloud Logging / Monitoring
 UI            Looker Studio + inspector  (prototype: Streamlit)
-Config        GCS/Firestore YAML         (prototype: config/)
+Config        baked/cached from GCS YAML  (prototype: config/)
 ```
 
 ## Layers (FR-1 to FR-5)
 
-**Ingestion.** Production: `gs://veritas-raw/{source_system}/{yyyy}/{mm}/{dd}/{document_id}.json`. Eventarc triggers a Cloud Run task per object; Cloud Scheduler sweeps unprocessed prefixes. Prototype lists `*.json` in a folder. Malformed JSON is isolated (NFR-3.1). Dedup keys (`document_id`, file hash, section hash) are in `config/dedup.yaml` (FR-1.2). File 5’s twin discharge summaries collide on section hash; file 1 vs file 3 keep different `documentId`/`claim_no`.
+**Ingestion.** Production: `gs://veritas-raw/{source_system}/{yyyy}/{mm}/{dd}/{document_id}.json`. Eventarc publishes the object name to Pub/Sub (not a new Cloud Run instance). Cloud Scheduler sweeps unprocessed prefixes. Prototype lists `*.json` in a folder. Malformed JSON is isolated (NFR-3.1). Dedup keys are in `config/dedup.yaml` (FR-1.2).
 
-**Processing.** One Python worker: clinic JSONPaths from `config/clinics.yaml` (FR-1.3, NFR-2.1). Test names: alias dictionary then RapidFuzz (FR-2.1). Numerics and combined fields (FR-2.3). Units + conversion (FR-2.4). Age/gender/ISO dates (FR-2.5). Brand → generic (FR-2.6). Validation priority: Outlier → Invalid → Above/Below Range → Within Range (FR-3). Source `test_analytics` is untrusted OCR.
+**Processing.** Cloud Run **service** (ARM): each instance pulls messages, downloads JSON from GCS, and runs the same Python as this repo. Clinic JSONPaths from cached YAML (FR-1.3, NFR-2.1). Names, numerics, units, demographics, medicines (FR-2). Validation: Outlier → Invalid → Above/Below Range → Within Range (FR-3). Flush when the in-memory batch hits **1000 files or 60 seconds** (whichever first). Under high Pub/Sub backlog, instances raise the flush cap to **5000** so warehouse writes stay batched while Cloud Run autoscaling adds instances. Steady state: 200k files/day ÷ 1000 ≈ **200 MERGEs/day**, not 200k.
 
-**Storage.** Long fact tables `lab_results` and `medications` plus `claims` (raw JSON retained, FR-4.3). This matches the assignment’s ideal CSV. FR-2.2’s five columns per test is `claim_tests_wide` (and in production a BigQuery authorised view) so adding Hemoglobin-2 is a YAML row, not an `ALTER TABLE` of 5 columns. Upsert on SHA-256 `id` (NFR-3.2).
+**Storage.** Long fact tables plus `claims` (raw JSON, FR-4.3). FR-2.2 five-column layout is a BigQuery authorised view. `MERGE` on SHA-256 `id` (NFR-3.2) for the whole batch.
 
 **Configuration.** All clinic field maps, aliases, units, ranges, medicines are files. FASTTRACK and ARTEMIS inherit `default`. A new documented schema is a new YAML block (NFR-2.2: one business day).
 
@@ -53,13 +56,13 @@ Config        GCS/Firestore YAML         (prototype: config/)
 | Combined DLC/LFT string | Split when `Name - n` pairs found; else Invalid |
 | Placeholder date `DD/MM/YYYY` | Null ISO date |
 | Duplicate file or section | Dead-letter `duplicate_*`, no second fact rows |
-| Worker crash mid-file | At-least-once replay; upsert makes it exactly-once in the warehouse |
+| Worker crash mid-batch | At-least-once Pub/Sub redelivery; batch MERGE on `id` is exactly-once in BQ |
 
 ## Trade-offs
 
 | Choice | We took | We rejected | Why |
 |---|---|---|---|
-| Compute | Cloud Run Jobs | Always-on GKE / Dataflow streaming | 200k small JSON files; scale to zero; 15 min SLA |
+| Compute | Cloud Run **service** (ARM, concurrency ~80) | Cloud Run **Job per object**; GKE; Dataflow streaming | Jobs would start ~200k containers/day. One service instance can standardise many JSON files; YAML stays in RAM. |
 | Warehouse | BigQuery | Cloud SQL only | Analyst SQL, cheap scans, views for wide contract |
 | Canonical shape | Long + wide view | Only wide 5×N columns | Onboarding new tests must not be a migration |
 | Matching | Dictionary + fuzzy | LLM on every row | Deterministic, cheap, auditable; Gemini later for suggestions |

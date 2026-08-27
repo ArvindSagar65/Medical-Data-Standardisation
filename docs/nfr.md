@@ -4,15 +4,15 @@ The prototype does not load 200k files. This note is how the **same modules** me
 
 ## NFR-1 Scale and performance
 
-**Throughput (NFR-1.1).** 200,000 objects/day ≈ 2.3 files/s average; 400k burst ≈ 4.6/s. Each file is tens to hundreds of KB of JSON. Cloud Run Jobs with Eventarc (one task per object, concurrency 80, CPU 1) handles this with headroom. Dataflow batch is the fallback if CPU-heavy NLP is added later — not required for dictionary + fuzzy matching.
+**Throughput (NFR-1.1).** 200,000 objects/day ≈ 2.3 files/s average; 400k burst ≈ 4.6/s. Small JSON (tens–hundreds of KB). A Cloud Run **service** on ARM handles this: **one instance processes many files** (target ≥ 80 JSON per instance via Pub/Sub pull + HTTP concurrency). A **Job per upload** would create an instance per object — startup and billing overhead at 200k/day, which we reject. Dataflow remains a fallback only if transforms become CPU-heavy (PDF/NLP), not for dictionary + fuzzy matching.
 
-**Latency (NFR-1.2).** Budget inside 15 minutes p95: GCS finalize < 1s, Eventarc < few seconds, Cloud Run cold start < 10s (min instances 1 in business hours), parse+write < 5s typical, BigQuery streaming insert or Storage Write API < 2s. Nightly BigQuery load jobs would miss the SLA; per-object or small micro-batches would not.
+**Latency (NFR-1.2).** Batch window is **60 seconds or 1000 messages** (5000 under backlog). That flush is still far inside a 15-minute p95: GCS finalize + Pub/Sub + process + one BQ `MERGE`. Min instances ≥ 1 in claim hours avoids cold-start on the first file of a quiet period. Nightly loads would miss the SLA; per-file MERGE would not miss SLA but would hammer BigQuery.
 
-**Horizontal scale (NFR-1.3).** Stateless workers. Adding Cloud Run max-instances increases throughput linearly until BigQuery quotas. No shared in-memory clinic state — config is read from GCS/Firestore.
+**Horizontal scale (NFR-1.3).** Autoscaling adds **service instances** when CPU or Pub/Sub unacked messages rise. Throughput scales roughly linearly. Batch size is a **worker setting**, not something Cloud Run changes by itself: at steady state flush at 1000; if lag/backlog grows, raise the cap to 5000 so MERGE rate stays bounded while more ARM instances drain the subscription. YAML is **in RAM** after container start (refresh from GCS on a generation/etag check, not on every file).
 
-**Cost napkin (order of magnitude, not a quote).** 200k × ~50 KB ≈ 10 GB/day ingress (GCS cheap). 200k Cloud Run-seconds/day at 1 vCPU is a few tens of dollars. BigQuery: streaming inserts cost more than nightly loads; a compromise is 1-minute load jobs of staged GCS JSON to stay under 15 min p95. Storage of raw + canonical is low tens of GB/month at this volume.
+**Cost napkin (order of magnitude, not a quote).** 200k × ~50 KB ≈ 10 GB/day GCS. Cloud Run: a handful of ARM instances, not 200k Job executions. BigQuery: **~200 MERGEs/day** at 1000-file batches (200k÷1000), vs 200k single-row merges. Burst path: 5000-file batches → even fewer MERGE jobs while instances scale out. Storage of raw + canonical is low tens of GB/month.
 
-**Trade-off:** Cloud Functions (1st gen) per object is simple but weaker CPU/timeouts. GKE is overkill. Dataflow streaming is the “impressive” default and the wrong cost/complexity point until transforms get heavy.
+**Trade-off:** Cloud Functions per object has the same “one invoke per file” tax. GKE is overkill. Dataflow streaming is the impressive default and the wrong cost point until transforms get heavy. Cloud Run Jobs stay useful for **scheduled sweeps** (DLQ replay, unprocessed prefix), not the hot path.
 
 ## NFR-2 Clinic onboarding
 
@@ -26,7 +26,7 @@ The prototype does not load 200k files. This note is how the **same modules** me
 
 **Fault isolation (NFR-3.1).** Per-object try/except; DLQ; siblings continue. Pub/Sub dead-letter topic after N delivery attempts.
 
-**Idempotency (NFR-3.2).** Merge on `id = sha256(document_id, record_type, test, page, original)`. Exactly-once warehouse effect from at-least-once Eventarc.
+**Idempotency (NFR-3.2).** Batch `MERGE` on `id = sha256(document_id, record_type, test, page, original)`. Exactly-once warehouse effect despite at-least-once Pub/Sub. Ack the batch only after MERGE succeeds (or nack and retry).
 
 **Availability (NFR-3.3).** Regional Cloud Run + multi-region GCS + BigQuery SLA. 99.5% allows ~3.6h/month; keep maintenance to config reloads (no downtime) and document a <2h window for forced deploys. Min instances during peak claim hours.
 
@@ -47,7 +47,8 @@ The prototype does not load 200k files. This note is how the **same modules** me
 ## References
 
 - [Cloud Storage object notifications / Eventarc](https://cloud.google.com/eventarc/docs/event-types)
-- [Cloud Run jobs](https://cloud.google.com/run/docs/create-jobs)
+- [Cloud Run services](https://cloud.google.com/run/docs/overview/what-is-cloud-run)
+- [Pub/Sub flow control and pull](https://cloud.google.com/pubsub/docs/pull)
 - [BigQuery streaming vs load jobs](https://cloud.google.com/bigquery/docs/loading-data)
 - [Cloud DLP](https://cloud.google.com/sensitive-data-protection/docs)
 - [Cloud Monitoring alerting](https://cloud.google.com/monitoring/alerts)

@@ -1,7 +1,10 @@
 """Load YAML from /config so a new clinic does not require a code change (NFR-2.1).
 
 `clinics.yaml` entries may set `extends: default` to inherit JSON field paths.
-`load_all()` is cached for one process; restart the pipeline after editing YAML.
+`load_all()` is cached for one process (RAM lookup during standardisation).
+In production the Cloud Run service loads the same YAML once at container start
+and refreshes on GCS generation/etag — not on every JSON file.
+Restart (or wait for refresh) after editing YAML.
 """
 
 from __future__ import annotations

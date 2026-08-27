@@ -13,11 +13,11 @@ Clear assumptions score higher than silent ones. This document is part of the su
 
 ## Technical assumptions
 
-- **Local folder + Python + SQLite + Streamlit** is an acceptable GCS / Cloud Run / BigQuery / Looker Studio mock because reviewers must run the repo without our GCP project. The Python modules are written so a Cloud Run container could call `run_pipeline` on a downloaded object with no redesign.
+- **Local folder + Python + SQLite + Streamlit** is an acceptable GCS / Cloud Run / BigQuery / Looker Studio mock because reviewers must run the repo without our GCP project. The Python modules are written so a Cloud Run **service** can run the same standardise/validate path on a **batch** of objects (the folder loop is that batch).
 - SQLite is sufficient for five files and the UI. Production warehouse is **BigQuery** (columnar, authorised views, IAM). PostgreSQL would also satisfy FR-4.1 if Veritas already standardised on Cloud SQL; we would still land a BigQuery replica for analytics.
 - RapidFuzz + YAML aliases beat an LLM on the hot path: deterministic, cheap, auditable. Gemini is a **suggestion** service for unmapped strings, with human promotion into YAML.
-- Micro-batch Cloud Run is the default compute; Dataflow is documented as the scale-up path, not built.
-- Idempotent `INSERT … ON CONFLICT` is enough exactly-once semantics for the warehouse under at-least-once object notifications.
+- Production compute is a Cloud Run **service** (ARM, YAML cached in RAM), not a Job per JSON. Dataflow is only if transforms get heavy. BQ writes are micro-batches (1000 files or 60s; 5000 under backlog) so MERGE volume is hundreds/day, not 200k.
+- Idempotent `MERGE` / `INSERT … ON CONFLICT` is enough exactly-once semantics for the warehouse under at-least-once Pub/Sub. Ack after the batch MERGE succeeds.
 - No authentication on Streamlit. Production UI sits behind IAP.
 
 ## Data assumptions
